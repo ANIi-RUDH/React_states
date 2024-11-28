@@ -1,63 +1,55 @@
 import React, { useState } from "react";
-import Tdo from "./todo"
-
 
 function App() {
-  const [inputText, setInputText] = useState("");
-  const [items, setItems] = useState([]);
-
-  function handleChange(event) {
-    const newValue = event.target.value;
-    setInputText(newValue);
-  }
-
-  function addItem() {
-    setItems(prevItems => {
-      return [...prevItems, inputText];
-    });
-    setInputText("");
-  }
-
-  function deleteItem(id){
-    console.log(`item number ${id} got deleted`)
-    setItems((oldOnes)=>{  
-  return(
-  oldOnes.filter(
-    (item,index)=>{
-      return index !==id 
-    })
-  )
-
-})
-  }
-
+ const [fullName, setFullName]=useState({
+  fName:"",
+  lName:""
+ })
+ 
+ function Changes(event){
+  console.log(event.target)
+  
+  console.log(event.target.value)
+  console.log(event.target.name)
+  
+  const {name,value}=event.target
+  
+  setFullName((oldOnes)=>{
+    console.log(oldOnes)
+    if (name==='fName'){
+      return {
+      fName:value,
+      lName:oldOnes.lName}
+    }
+    if (name==='lName'){
+      return{
+        fName:oldOnes.fName,
+        lName:value
+      }
+    }
+  })
+  
+ }
   return (
     <div className="container">
-      <div className="heading">
-        <h1>To-Do List</h1>
-      </div>
-      <div className="form">
-        <input onChange={handleChange} type="text" value={inputText} />
-        <button onClick={addItem}>
-          <span>Add</span>
-        </button>
-      </div>
-      <div>
-        <ul>
-         {items.map((x,index)=>{
-          return(
-          <Tdo
-              key={index}
-              id={index}
-              text={x}
-              onChecked={deleteItem}
-           />)
-         })}
-        </ul>
-      </div>
+      <h1>
+        Hello
+         {fullName.fName} {fullName.lName} 
+      </h1>
+      <form>
+        <input onChange={Changes} type="text"  name="fName" 
+        value={fullName.fName}
+        placeholder="First Name"/>
+        <input onChange={Changes} type="text" name="lName"
+          value={fullName.lName}
+           placeholder="Last Name"   />
+        <button>Submit</button>
+      
+      </form>
     </div>
   );
-}
+ }
+
+
 
 export default App;
-// export {handleChange,addItem};
